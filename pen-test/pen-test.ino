@@ -1,41 +1,41 @@
-const int pin = 1;
+static const int TX = 6;
 
-void send_request(int command, int a, int b, int c, int d, int e) {
-  int checksum = (command + a + b + c + d + e);
+void packet(int cmd, int a, int b, int c, int d, int e) {
+  int cs = (cmd + a + b + c + d + e);
   
-  pinMode(pin, OUTPUT);
-  digitalWrite(pin, LOW);
+  pinMode(TX, OUTPUT);
+  digitalWrite(TX, LOW);
   delayMicroseconds(2750);
-  digitalWrite(pin, HIGH);
+  digitalWrite(TX, HIGH);
   delayMicroseconds(200);
   Serial.begin(4800);
 
-  Serial.write(0x0);
-  Serial.write(command);
+  Serial.write((byte) 0x0);
+  Serial.write(cmd);
   Serial.write(a);
   Serial.write(b);
   Serial.write(c);
   Serial.write(d);
   Serial.write(e);
-  Serial.write(checksum);
+  Serial.write(cs);
   
   Serial.end();
-  pinMode(pin, OUTPUT);
-  digitalWrite(pin, HIGH);
+  pinMode(TX, OUTPUT);
+  digitalWrite(TX, HIGH);
 }
 
-void reset_code(int a, int b, int c, int d, int e) {
-  send_request(0x75, a, b, c, d, e);
+void set_comb(int a, int b, int c, int d, int e) {
+  packet(0x75, a, b, c, d, e);
 }
 
-void try_code(int a, int b, int c, int d, int e) {
-  send_request(0x71, a, b, c, d, e);
+void input_comb(int a, int b, int c, int d, int e) {
+  packet(0x71, a, b, c, d, e);
 }
 
 void setup() {
-  reset_code(1,2,3,4,5);
+  set_new_comb(5,3,2,1,0);
   delay(1000);
-  try_code(1,2,3,4,5);
+  input_comb(5,3,2,1,0);
 }
 
 void loop() {}
