@@ -33,7 +33,7 @@ void input_comb(int a, int b, int c, int d, int e) {
 }
 
 void setup() {
-  set_new_comb(5,3,2,1,0);
+  set_comb(5,3,2,1,0);
   delay(1000);
   input_comb(5,3,2,1,0);
 }
