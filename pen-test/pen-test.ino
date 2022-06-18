@@ -10,7 +10,7 @@ void send_request(int command, int a, int b, int c, int d, int e) {
   delayMicroseconds(200);
   Serial.begin(4800);
 
-  Serial.write(0x0);
+  Serial.write((byte)0x0);
   Serial.write(command);
   Serial.write(a);
   Serial.write(b);
