@@ -155,12 +155,17 @@ When we look at the signal :
 
 I also capture the signal exchange at boot time, so we can now map some functions :
 
-| Command byte | Function                | Code provided |
-|--------------|-------------------------|---------------|
-| 0x71         | Try to unlock           | Code to try   |
-| 0x74         | Try to init code change | Factory code  |
-| 0x75         | End code change process | New code      |
-| 0x78         | Boot                    | 00000 (null)  |
+| Command byte | Function                    | Code provided | Response if OK  | Response if error |
+|--------------|-----------------------------|---------------|-----------------|-------------------|
+| 0x71         | Try to unlock               | Code to try   | 0x51 1 0 1 0x53 | 0x51 0 0 1 0x52   |
+| 0x72         | Init 2nd code change        | 1st code      | 0x52 1 0 1 0x54 | 0x52 0 0 1 0x53   |
+| 0x74         | Init 1st code change        | Factory code  | 0x54 1 0 1 0x56 | 0x54 0 0 1 0x55   |
+| 0x75         | Save 1st code               | New code      | 0x55 1 0 1 0x57 |                   |
+| 0x76         | Save 2nd code               | New code      | 0x56 1 0 1 0x58 |                   |
+| 0x78         | Boot                        | 00000 (null)  | 0x58 1 0 1 0x5A |                   |
+
+
+After too many incorrect attempts, the middle byte in the response becomes 0x10, which triggers the keypad's anti-bruteforce lock for a few minutes.
 
 
 But what happends if you directly send a new code signal, skiping factory code step...
