@@ -55,6 +55,8 @@ Only one microcontroller on each of them.
 
 ![Chip](images/chip.jpg)
 
+> Update: latest models seem to use HT66F018 chip for both inside and outside boards.
+
 According to the datasheet, main communication protocols used with this microcontroller are SPI and I²C.
 But not this time, cause both of them need a clock signal, and there is no movement on any of the other wires.
 
@@ -96,7 +98,7 @@ After some tries with different codes, here is some observations about different
 - then 5 digits of the pressed code are sent
 - finaly, the last byte changes depending on the code, it seems to be a custom checksum
 
-Here is data :t 
+Here is data : 
 
 | Command byte | Tried Code | Checksum byte |
 |--------------|------------|---------------|
